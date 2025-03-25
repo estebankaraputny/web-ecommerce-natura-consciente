@@ -1,26 +1,32 @@
-import { useEffect, useState } from "react"
+"use client";
 
+import { useEffect, useState } from "react";
 
-export function useGetFeaturedProductos (){
-    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products?filters[isFeatured][$eq]=true&populate=*`
-    const [result, setResult] = useState(null)
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState("")
-
+export function useGetFeaturedProductos() {
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products?filters[isFeatured][$eq]=true&populate=*`;
+    console.log("URL de la API:", url);
+    const [result, setResult] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
     useEffect(() => {
-        (async() => {
-            try{
-                const res = await fetch(url)
-                const json = await res.json()
-                setResult(json.data)
-                setLoading(false)
-            } catch (error : any){
-                setError(error)
-                setLoading(false)
+        (async () => {
+            try {
+                const res = await fetch(url);
+                if (!res.ok) {
+                    throw new Error(`Error en la API: ${res.statusText}`);
+                }
+                const json = await res.json();
+                setResult(json.data);
+            } catch (err: any) {
+                console.error("Error al obtener productos destacados:", err.message);
+                setError(err.message);
+            } finally {
+                setLoading(false);
             }
-        })()
-    }, [url])
+        })();
+    }, [url]);
 
-    return{ loading, result, error };
+    
+    return { loading, result, error };
 }
