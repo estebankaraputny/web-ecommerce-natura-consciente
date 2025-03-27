@@ -15,9 +15,6 @@ const Navbar = () => {
             <div className="items.center justify-between hidden sm:flex">
                 <MenuList />
             </div>
-            <div className="flex sm:hidden">
-                <ItemsMenuMobile />
-            </div>
             <div className="flex items-center justify-between gap-2 sm-gap-7">
                 <ShoppingCart strokeWidth="1" className="cursor-pointer"
                  onClick={() => router.push("/cart")}/>
@@ -27,6 +24,9 @@ const Navbar = () => {
 
                  <User strokeWidth="1" className="cursor-pointer" />
                 <ToggleTheme />
+            </div>
+            <div className="flex sm:hidden">
+                <ItemsMenuMobile />
             </div>
         </div>
     ); 
